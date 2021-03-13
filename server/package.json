@@ -1,0 +1,31 @@
+{
+  "name": "drieman-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Vandorpe",
+  "license": "ISC",
+  "dependencies": {
+    "@types/socket.io": "^2.1.13",
+    "@types/uuid": "^8.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^3.1.2",
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3",
+    "shared": "file:../shared/"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.31",
+    "tslint": "^6.1.3",
+    "typescript": "^4.2.2"
+  }
+}
