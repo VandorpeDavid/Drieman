@@ -27,7 +27,7 @@
         "player_pause": "{{ source.name }} neemt een pauze, maar je kan gelukkig nog drank aan hem uitdelen.",
         "player_resume": "De pauze van {{ source.name }} is voorbij.",
         "player_rename": "{{ oldName }} heet nu {{ source.name }}.",
-        "player_roll": "{{ source.name }} heeft een {{ dice1 }} en een {{ dice2 }} gegooid."
+        "roll": "{{ source.name }} heeft een {{ dice1 }} en een {{ dice2 }} gegooid."
     },
     "requests": {
         "debug_error_request": "Debug foutmelding",
@@ -35,6 +35,7 @@
         "drieman_join": "Spel joinen.",
         "drieman_leave": "Spel verlaten.",
         "drieman_newGame": "Spel aanmaken.",
+        "drieman_resume": "Verder spelen.",
         "drieman_pause": "Pauzeren.",
         "drieman_rejoin": "Spel rejoinen.",
         "drieman_rename": "Naam wijzigen naar {{ newName }}.",

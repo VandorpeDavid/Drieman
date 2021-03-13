@@ -21,7 +21,11 @@ interface IEventLogEntryProps extends WithTranslation {
     removeRequest: (request: ISentRequest) => void
 }
 
-
+const alertMap = {
+    [RequestStatus.SUCCESS]: 'is-success',
+    [RequestStatus.PENDING]: 'is-info',
+    [RequestStatus.ERROR]: 'is-danger',
+}
 class EventLogEntry extends React.Component<IEventLogEntryProps> {
     constructor(props: IEventLogEntryProps) {
         super(props);
@@ -40,14 +44,14 @@ class EventLogEntry extends React.Component<IEventLogEntryProps> {
         if (request.status === RequestStatus.ERROR) {
             const response = request.response as ErrorResponse;
             error = <div className="error-response-message">
-                {t('common.error')}:
-                {t('errors.' + response.message)}
+                {t('common.error')}: {t('errors.' + response.message)}
             </div>
         }
-        return <div className={`request request-status-${RequestStatus[request.status]}`}>
+
+        return <div className={`request notification ${alertMap[request.status]}`}>
             <div className="request-type">{t('requests.' + request.message.type, request.message)}</div>
             {error}
-            <div className="remove-request" onClick={this.close}>x</div>
+            <div className="remove-request delete" onClick={this.close}>x</div>
         </div>;
 
     }

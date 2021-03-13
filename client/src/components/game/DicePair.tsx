@@ -21,7 +21,7 @@ interface IDiceState {
 class DicePair extends React.Component<IDiceProps, IDiceState> {
     constructor(props: IDiceProps) {
         super(props);
-        this.state = { rolling: false, dice1: 1, dice2: 1};
+        this.state = { rolling: false, dice1: 1, dice2: 1 };
         autobind(this);
     }
 
@@ -30,14 +30,14 @@ class DicePair extends React.Component<IDiceProps, IDiceState> {
             { rolling: true },
             () => {
                 this.props.sendMessage(new RollRequest())
-                .then((resp) => {
-                    const response = resp as RollResponse;
-                    this.setState({
-                        rolling: false,
-                        dice1: response.dice1,
-                        dice2: response.dice2
+                    .then((resp) => {
+                        const response = resp as RollResponse;
+                        this.setState({
+                            rolling: false,
+                            dice1: response.dice1,
+                            dice2: response.dice2
+                        })
                     })
-                })
                     .catch((_error) => this.setState({ rolling: false }));
             }
         );
@@ -46,14 +46,18 @@ class DicePair extends React.Component<IDiceProps, IDiceState> {
     render() {
         const { game, player, t } = this.props;
         if (game?.players[game?.activePlayer].id !== player.id) {
-            return <button className="roll-button-disabled">{t('game.actions.roll')}</button>;
+            return <div className="dices">
+                <button className="roll-button-disabled">{t('game.actions.roll')}</button>
+            </div>;
         }
 
         if (this.state.rolling) {
             // TODO
-            return <p>Rolling.</p>;
+            return <div className="dices">{t("game.state.rolling")}</div>;
         }
-        return <button onClick={this.roll}>{t('game.actions.roll')}</button>;
+        return <div className="dices">
+            <button onClick={this.roll}>{t('game.actions.roll')}</button>
+        </div>;
     }
 }
 

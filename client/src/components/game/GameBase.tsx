@@ -7,13 +7,16 @@ import { ResponseMessage } from 'shared/dist/messages/responses';
 import autobind from 'react-autobind';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { PlayerStatus } from 'shared/dist/models/Player';
-
+import EventsLog from './events/EventLog';
+import DriemanEvent from 'shared/dist/events/DriemanEvent';
+import Navbar from "../navbar";
 
 interface IGameBaseProps extends WithTranslation {
   game?: GameState,
   player?: Player,
   sendMessage: (message: RequestMessage) => Promise<ResponseMessage>,
-  gameId?: string
+  gameId?: string,
+  events: DriemanEvent[]
 }
 
 class GameBase extends React.Component<IGameBaseProps> {
@@ -39,22 +42,42 @@ class GameBase extends React.Component<IGameBaseProps> {
   }
 
   render() {
-    const { game, player, sendMessage, gameId, t } = this.props;
+    const { game, player, sendMessage, gameId, events, t } = this.props;
 
     if (!player) {
-      return <HomeScreen sendMessage={sendMessage} />
+      return <React.Fragment>
+        <Navbar />
+        <div className="main-content container">
+          <HomeScreen sendMessage={sendMessage} />
+        </div>
+      </React.Fragment>
     }
 
-    let pauseButton = <p onClick={this.pauseGame}>{t('game.actions.pause')}</p>;
+    let pauseButton = <a className="button is-rounded" onClick={this.pauseGame}>{t('game.actions.pause')}</a>;
     if (player.status === PlayerStatus.PAUSED) {
-       pauseButton = <p onClick={this.resumeGame}>{t('game.actions.resume')}</p>;
+      pauseButton = <a className="button is-rounded" onClick={this.resumeGame}>{t('game.actions.resume')}</a>;
     }
     return <React.Fragment>
-      <p>{gameId}</p>
-      <p onClick={this.leaveGame}>{t('game.actions.leave')}</p>
-      {pauseButton}
+      <Navbar>
+        <div className="gamecode button">
+        {t('common.code')}: {gameId}
+        </div>
 
-      <Game game={game as GameState} player={player as Player} sendMessage={sendMessage} />
+        {pauseButton}
+        <button className="button is-rounded" onClick={this.leaveGame}>
+          {t('game.actions.leave')}
+        </button>
+      </Navbar>
+      <div className="main-content container">
+
+        <div className="level">
+          <EventsLog events={events} />
+        </div>
+        <div className="level">
+          <Game game={game as GameState} player={player as Player} sendMessage={sendMessage} />
+        </div>
+      </div>
+
     </React.Fragment>;
   }
 }

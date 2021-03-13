@@ -8,8 +8,7 @@ import { RejoinRequest, RequestMessage } from "shared/dist/messages/requests";
 import { JoinResponse, ResponseMessage } from "shared/dist/messages/responses";
 import produce from "immer"
 import Game from "./game/GameBase";
-import { default as RequestsLog, RequestStatus, ISentRequest } from './RequestLog';
-import EventsLog from './EventLog';
+import { default as RequestsLog, RequestStatus, ISentRequest } from './requests/RequestLog';
 import autobind from 'react-autobind';
 
 interface IAppBaseProps {
@@ -182,8 +181,7 @@ class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
     }
 
     return <React.Fragment>
-      <Game sendMessage={this.sendMessage} player={player} game={game} gameId={gameId} />
-      <EventsLog events={events} />
+      <Game sendMessage={this.sendMessage} player={player} game={game} gameId={gameId} events={events} />
       <RequestsLog requests={requests} removeRequest={this.removeRequest} />
     </React.Fragment>;
   }

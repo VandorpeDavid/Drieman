@@ -3,7 +3,7 @@ import { Player } from 'shared/dist/models';
 import { HandoutRequest, RequestMessage } from "shared/dist/messages/requests";
 import autobind from 'react-autobind';
 import { ResponseMessage } from 'shared/dist/messages/responses';
-
+import { FaBeer } from "react-icons/fa";
 
 interface IPlayerHandoutButtonsProps {
     me: Player,
@@ -29,15 +29,10 @@ class PlayerHandoutButton extends React.Component<IPlayerHandoutButtonsProps> {
     render() {
         const { me, handout } = this.props;
         if (me.handouts < handout) {
-            return <div>
-                <div className="handout handout-disabled">+{handout}</div>
-            </div>;
+            return <span className="handout handout-disabled"><FaBeer size="3em" /></span>;
         }
 
-
-        return <div>
-            <div className="handout" onClick={this.doHandout}>+{handout}</div>
-        </div>;
+        return <span className="handout" onClick={this.doHandout}><FaBeer size="3em" /></span>;
     }
 }
 

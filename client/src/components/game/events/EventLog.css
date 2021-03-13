@@ -1,0 +1,10 @@
+.events-log {
+    overflow-y: scroll;
+    height: 200px;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.events-log .event-log-entry {
+    border-bottom: 1px solid black;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './RequestLog.css';
 import RequestLogEntry from './RequestLogEntry';
 import { ISentRequest } from './RequestLogEntry';
 export { RequestStatus } from './RequestLogEntry';
@@ -17,9 +17,8 @@ class RequestsOverlay extends React.Component<IRequestsOverlayProps> {
     this.state = {};
   }
 
-
   render() {
-    return <div className="overlay">
+    return <div className="request-log">
       {
         this.props.requests.map((request) => <RequestLogEntry request={request} removeRequest={this.props.removeRequest} key={request.message.id} />)
       }

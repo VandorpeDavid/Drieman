@@ -1,6 +1,7 @@
 import React from 'react';
 import DriemanEvent from 'shared/dist/events/DriemanEvent';
 import EventLogEntry from './EventLogEntry';
+import "./EventLog.css";
 
 interface IEventLogProps {
   events: DriemanEvent[],
@@ -15,9 +16,9 @@ class EventLog extends React.Component<IEventLogProps> {
 
 
   render() {
-    return <div>
+    return <div className="events-log">
       {
-        this.props.events.map((event, index) => <EventLogEntry event={event} key={index} />)
+        this.props.events.slice().reverse().map((event, index) => <EventLogEntry event={event} key={index} />)
       }
     </div>
   }

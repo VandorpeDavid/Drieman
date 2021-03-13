@@ -336,6 +336,7 @@ function handleRoll(session: Session, message: RollRequest) {
         } else {
             roll.newDrieman = true;
             roll.driemanLevel = 1;
+            game.state.drieman = currentPlayer;
         }
     }
 

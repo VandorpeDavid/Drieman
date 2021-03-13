@@ -1,0 +1,31 @@
+.request-log {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    overflow: scroll;
+}
+
+.request-status-PENDING {
+    background-color: blue;
+}
+
+.request-status-ERROR {
+    background-color: red;
+}
+
+.request-status-SUCCESS {
+    background-color: greenyellow;
+}
+
+.request-log .request {
+    pointer-events: auto;
+    margin-bottom: 1.5rem;
+}

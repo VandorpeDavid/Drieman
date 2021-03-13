@@ -1,30 +1,78 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+#navbar {
+  width: 100%;
+  z-index: 10;
+  background: #000;
+  border-bottom: 10px solid #FFE01B;
+  box-shadow: 0 5px 5px rgb(0 0 0 / 13%);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.navbar-menu {
+  background: #000;
 }
 
-
-.request-status-PENDING {
-  background-color: blue;
+#navbar.is-active {
+  border-bottom: none;
 }
 
-.request-status-ERROR {
-  background-color: red;
+.navbar-menu.is-active {
+  border-bottom: 10px solid #FFE01B;
+  box-shadow: 0 5px 5px rgb(0 0 0 / 13%);
 }
 
-.request-status-SUCCESS {
-  background-color: greenyellow;
+#navbar .button {
+  background: #FFE01B;
+  color: black;
+  border: none;
+}
+
+#brand-logo {
+  position: absolute;
+  width: 140px;
+  justify-content: center;
+}
+
+#navbar .shield .logo-shield {
+  width: 75px;
+  display: block;
+}
+
+.shield img {
+  height: 98px;
+  width: 75px;
+  max-height: 200px;
+}
+
+a.navbar-item, .navbar-link {
+  cursor: pointer;
+}
+
+#navbar .gamecode.button {
+  background-color: black;
+  color: #FFE01B;
+  cursor: auto;
+  user-select: auto;
 }
 
 .handout-disabled, .roll-button-disabled {
-  color: gray;
+  color: lightgray;
+  margin-right: 10px;
+}
+
+.player-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.player.card {
+  flex-grow: 1;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.player.player-current {
+  border: 2px solid green;
+}
+
+.player.player-paused .card-header-title {
+  color: lightgray;
 }

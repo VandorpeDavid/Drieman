@@ -6,7 +6,7 @@ import { PlayerStatus } from 'shared/dist/models/Player';
 import { ResponseMessage } from 'shared/dist/messages/responses';
 import PlayerHandoutButtons from './PlayerHandoutButtons';
 import PlayerName from './PlayerName';
-
+import { FaHatWizard } from "react-icons/fa";
 
 interface IPlayerProps {
     game: GameState,
@@ -29,23 +29,39 @@ class Player extends React.Component<IPlayerProps> {
             return null;
         }
 
-        let className = "player"
+        let className = "card player"
 
         if (game?.activePlayer === playerIndex) {
             className += " player-current";
+        }
+
+        if(player?.status === PlayerStatus.PAUSED) {
+            className += " player-paused";
         }
 
         if (player?.id === me.id) {
             className += " player-me";
         }
 
+        let crown = null;
         if (player?.id === game.drieman?.id) {
             className += " player-drieman";
+
+            crown = <FaHatWizard />
         }
 
+
+
         return <div className={className}>
-            <PlayerName me={me} player={player} sendMessage={sendMessage} />
-            <PlayerHandoutButtons me={me} player={player} sendMessage={sendMessage} />
+            <div className="card-header">
+                <div className="card-header-title">
+                    {crown}
+                    <PlayerName me={me} player={player} sendMessage={sendMessage} />
+                </div>
+            </div>
+            <div className="card-content">
+                <PlayerHandoutButtons me={me} player={player} sendMessage={sendMessage} />
+            </div>
         </div>;
     }
 }

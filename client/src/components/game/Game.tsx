@@ -17,10 +17,25 @@ class AppContainer extends React.Component<IGameProps> {
         const { game } = this.props;
 
         return <React.Fragment>
-            <DicePair {...this.props} />
-            {
-                game?.players.map((player, index) => <PlayerView {...this.props} me={this.props.player} playerIndex={index} key={player.id} />)
-            }
+            <div className="tile is-ancestor">
+                <div className="tile is-vertical">
+                    <div className="tile">
+                        <DicePair {...this.props} />
+                    </div>
+                    <div className="tile is-parent player-list">
+                        {
+                            game?.players.map((player, index) =>
+                                <PlayerView {...this.props} me={this.props.player} playerIndex={index} key={player.id} />
+                            )
+                        }
+                    </div>
+                </div>
+            </div>
+            <div className="level">
+            </div>
+            <div className="level">
+
+            </div>
         </React.Fragment>
     }
 }
