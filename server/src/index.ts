@@ -1,4 +1,3 @@
-import winston from "winston";
 import { handlers } from './handlers';
 import {
     Session
@@ -8,12 +7,7 @@ import { app, io, server } from "./servers";
 import cors from "cors";
 import { ErrorResponse } from "shared/dist/messages/responses";
 const port = 8080; // default port to listen
-
-const logger = winston.createLogger({
-    transports: [
-        new winston.transports.Console()
-    ]
-});
+import logger from "./logger";
 
 app.use(cors());
 // define a route handler for the default home page

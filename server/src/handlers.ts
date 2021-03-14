@@ -90,6 +90,7 @@ function handleNewGame(session: Session, message: NewGameRequest) {
     }
 
     const player = new Player(name);
+    player.connections++;
     const event = new PlayerJoin(player);
     const secret = uuidv4();
 
