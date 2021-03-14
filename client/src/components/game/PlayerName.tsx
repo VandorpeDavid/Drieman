@@ -4,6 +4,7 @@ import { RenameRequest, RequestMessage } from "shared/dist/messages/requests";
 import autobind from 'react-autobind';
 import { ResponseMessage } from 'shared/dist/messages/responses';
 import { withTranslation, WithTranslation } from 'react-i18next';
+import { FaEdit } from "react-icons/fa";
 
 interface IPlayerNameProps extends WithTranslation {
     me: PlayerModel,
@@ -66,17 +67,19 @@ class PlayerName extends React.Component<IPlayerNameProps, IPlayerNameState> {
     }
 
     render() {
-        const { t, player } = this.props;
+        const { t, player, me } = this.props;
         if (this.state.editting) {
             return <div>
-                <input type="text" value={this.state.newName} onChange={this.onChange}/>
+                <input type="text" value={this.state.newName} onChange={this.onChange} />
                 <button onClick={this.submit}>{t('common.confirm')}</button>
                 <button onClick={this.cancel}>{t('common.cancel')}</button>
             </div>;
         }
 
         return <div onClick={this.beginEditting}>
-            {player.name}
+            {player.name} {
+                me.id === player.id ? <FaEdit /> : null
+            }
         </div>
     }
 }
