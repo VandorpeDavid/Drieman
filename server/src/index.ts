@@ -3,7 +3,7 @@ import { handlers } from './handlers';
 import {
     Session
 } from "./models";
-import { RequestMessage, LeaveRequest } from "shared/dist/messages/requests";
+import { RequestMessage } from "shared/dist/messages/requests";
 import { app, io, server } from "./servers";
 import cors from "cors";
 import { ErrorResponse } from "shared/dist/messages/responses";
@@ -53,7 +53,7 @@ io.on("connection", (socket: any) => {
     socket.on('disconnect', () => {
         logger.info("a user disconnected");
         try {
-            handlers.drieman_leave(session, { id: "none" } as LeaveRequest);
+            handlers.drieman_disconnect(session, { id: "none" } as RequestMessage);
         } catch (err) {
             logger.error(err);
         }

@@ -60,6 +60,7 @@
         "drink amount needs to be atleast 1": "U moet minstens 1 slok drinken.",
         "handout target player left": "Deze speler heeft het spel verlaten.",
         "not your turn": "Het is momenteel niet uw beurt om te gooien.",
-        "you don't have to drink anything": "U hebt momenteel geen slokken om te drinken."
+        "you don't have to drink anything": "U hebt momenteel geen slokken om te drinken.",
+        "internal server error": "Internal server error."
     }
 }

@@ -12,6 +12,7 @@ export default class Player {
     lastSeen: Date;
     drunk: number;
     toDrink: number;
+    connections: number;
 
     constructor(name: string) {
         this.name = name;
@@ -19,6 +20,7 @@ export default class Player {
         this.id = uuidv4();
         this.drunk = 0;
         this.toDrink = 0;
+        this.connections = 0;
     }
 
     canDrink() {

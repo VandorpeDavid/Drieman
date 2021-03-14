@@ -53,9 +53,12 @@ a.navbar-item, .navbar-link {
   user-select: auto;
 }
 
+.handout {
+  margin-right: 10px;
+}
+
 .handout-disabled, .roll-button-disabled {
   color: lightgray;
-  margin-right: 10px;
 }
 
 .player-list {

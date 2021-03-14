@@ -26,7 +26,8 @@ import {
     RenameRequest,
     NewGameRequest,
     ErrorRequest,
-    DrinkRequest
+    DrinkRequest,
+    RequestMessage
 } from "shared/dist/messages/requests/";
 import EventMessage from "shared/dist/messages/EventMessage";
 import {
@@ -53,14 +54,14 @@ function broadcast(game: Game, event: DriemanEvent) {
     game.room.broadcast(new EventMessage(event, game.state));
 }
 
-function sanitizeName(newName : string) : string {
+function sanitizeName(newName: string): string {
     if (isMissing(newName)) {
         return undefined;
     }
 
     newName = newName.trim();
 
-    if(newName.length === 0 || newName.length > 15) {
+    if (newName.length === 0 || newName.length > 15) {
         return undefined;
     }
 
@@ -84,7 +85,7 @@ function makeGameId() {
 function handleNewGame(session: Session, message: NewGameRequest) {
     const name = sanitizeName(message.name);
 
-    if(isMissing(name)) {
+    if (isMissing(name)) {
         return new ErrorResponse(message, "invalid username");
     }
 
@@ -118,9 +119,13 @@ function handleLeave(session: Session, message: LeaveRequest) {
     player.leave();
 
     let passTurn = false;
-    if (game.getCurrentPlayer() === player) {
+    if (game.getCurrentPlayer().id === player.id) {
         game.advanceTurn();
         passTurn = true;
+    }
+
+    if (game.state.drieman?.id === player.id) {
+        game.state.drieman = null;
     }
 
     broadcast(game, new PlayerLeave(player, passTurn));
@@ -139,7 +144,7 @@ function handleLeave(session: Session, message: LeaveRequest) {
 function handleJoin(session: Session, message: JoinRequest) {
     const name = sanitizeName(message.name);
 
-    if(isMissing(name)) {
+    if (isMissing(name)) {
         return new ErrorResponse(message, "invalid username");
     }
 
@@ -150,6 +155,7 @@ function handleJoin(session: Session, message: JoinRequest) {
     if (!(message.gameId in games)) {
         return new ErrorResponse(message, "game not found")
     }
+    player.connections++;
 
     const game = games[message.gameId];
     game.playerMap[secret] = player;
@@ -175,6 +181,7 @@ function handleRejoin(session: Session, message: RejoinRequest) {
     }
 
     player.resume()
+    player.connections++;
     const event = new PlayerJoin(player, true)
 
     game.room.addListener(session);
@@ -208,7 +215,7 @@ function handleRename(session: Session, message: RenameRequest) {
     }
 
     const newName = sanitizeName(message.newName);
-    if(isMissing(newName)) {
+    if (isMissing(newName)) {
         return new ErrorResponse(message, "invalid username");
     }
 
@@ -282,6 +289,17 @@ function handleHandout(session: Session, message: HandoutRequest) {
 
 function handleErrorRequest(_session: Session, message: ErrorRequest) {
     return new ErrorResponse(message, "error as requested");
+}
+
+function handleDisconnect(session: Session, message: RequestMessage) {
+    const player = session.player;
+    player.connections--;
+
+    if (player.connections <= 0) {
+        return handleLeave(session, message);
+    } else {
+        return new OkResponse(message);
+    }
 }
 
 function handleDrink(session: Session, message: DrinkRequest) {
@@ -436,5 +454,6 @@ export const handlers: { [name: string]: (s: Session, msg: any) => ResponseMessa
     "drieman_resume": handleResume,
     "drieman_rename": handleRename,
     "drieman_newGame": handleNewGame,
+    "drieman_disconnect": handleDisconnect,
     "debug_error_request": handleErrorRequest
 }

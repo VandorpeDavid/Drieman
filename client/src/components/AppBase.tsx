@@ -4,6 +4,7 @@ import config from "../config/config.json";
 import EventMessage from "shared/dist/messages/EventMessage";
 import { GameState, Player } from 'shared/dist/models';
 import DriemanEvent from 'shared/dist/events/DriemanEvent';
+import { PlayerLeave } from 'shared/dist/events';
 import { RejoinRequest, RequestMessage } from "shared/dist/messages/requests";
 import { JoinResponse, ResponseMessage } from "shared/dist/messages/responses";
 import produce from "immer"
@@ -73,6 +74,26 @@ class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
     socket.on('driemanEvent', (eventMessage: EventMessage) => {
       console.log("event received", eventMessage);
 
+      if (eventMessage.event.type === 'player_leave') {
+        const leaveEvent = eventMessage.event as PlayerLeave;
+        this.setState((prevState: IAppBaseState) => {
+          if (prevState.player?.id === leaveEvent.source.id) {
+            localStorage.removeItem('secret');
+            localStorage.removeItem('gameId');
+
+            return {
+              playerId: undefined,
+              game: undefined,
+              gameId: undefined,
+              player: undefined,
+              events: []
+            };
+          }
+
+          return null;
+        });
+      }
+
       const game = eventMessage.state;
       const event = eventMessage.event;
       this.setState(
@@ -111,18 +132,6 @@ class AppBase extends React.Component<IAppBaseProps, IAppBaseState> {
 
   async sendMessage(message: RequestMessage): Promise<ResponseMessage> {
     const _that = this;
-    if (message.type === 'drieman_leave') {
-      this.setState({
-        playerId: undefined,
-        game: undefined,
-        gameId: undefined,
-        player: undefined,
-        events: []
-      });
-
-      localStorage.removeItem('secret');
-      localStorage.removeItem('gameId');
-    }
 
     const response = await new Promise<ResponseMessage>((resolve, error) => {
       _that.setState((previousState) => ({

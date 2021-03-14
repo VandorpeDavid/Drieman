@@ -3,7 +3,8 @@
     height: 200px;
     display: flex;
     flex-direction: column-reverse;
-    width: 100%;
+    width: calc(100% - 5px);
+    margin-left: 5px;
 }
 
 .events-log .event-log-entry {
