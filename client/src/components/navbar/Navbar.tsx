@@ -34,11 +34,11 @@ class Navbar extends React.Component<INavbarProps, INavbarState> {
                     <img alt="WiNA Schild" className="logo-wordmark logo-shield " src="/wina-logo.svg" />
                 </a>
 
-                <a href="#" role="button" className={'navbar-burger ' + activeClass} aria-label="menu" aria-expanded="false" onClick={this.toggleActive}>
+                <div role="button" className={'navbar-burger ' + activeClass} aria-label="menu" aria-expanded="false" onClick={this.toggleActive}>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
-                </a>
+                </div>
             </div>
 
 

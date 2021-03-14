@@ -7,8 +7,9 @@ import { ResponseMessage } from 'shared/dist/messages/responses';
 import PlayerHandoutButtons from './PlayerHandoutButtons';
 import PlayerName from './PlayerName';
 import { FaHatWizard } from "react-icons/fa";
+import { withTranslation, WithTranslation } from 'react-i18next';
 
-interface IPlayerProps {
+interface IPlayerProps extends WithTranslation {
     game: GameState,
     me: PlayerModel,
     sendMessage: (message: RequestMessage) => Promise<ResponseMessage>
@@ -23,7 +24,7 @@ class Player extends React.Component<IPlayerProps> {
     }
 
     render() {
-        const { game, playerIndex, me, sendMessage } = this.props;
+        const { game, playerIndex, me, sendMessage, t } = this.props;
         const player = game?.players[playerIndex];
         if (player?.status === PlayerStatus.LEFT) {
             return null;
@@ -61,9 +62,11 @@ class Player extends React.Component<IPlayerProps> {
             </div>
             <div className="card-content">
                 <PlayerHandoutButtons me={me} player={player} sendMessage={sendMessage} />
+                <p>{t('common.toDrink')}: {player.toDrink}</p>
+                <p>{t('common.drunk')}: {player.drunk}</p>
             </div>
         </div>;
     }
 }
 
-export default Player;
+export default withTranslation()(Player);

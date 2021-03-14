@@ -10,11 +10,15 @@ export default class Player {
     status: PlayerStatus = PlayerStatus.PLAYING;
     handouts: number = 0;
     lastSeen: Date;
+    drunk: number;
+    toDrink: number;
 
     constructor(name: string) {
         this.name = name;
         this.lastSeen = new Date();
         this.id = uuidv4();
+        this.drunk = 0;
+        this.toDrink = 0;
     }
 
     canDrink() {

@@ -76,3 +76,13 @@ a.navbar-item, .navbar-link {
 .player.player-paused .card-header-title {
   color: lightgray;
 }
+
+.dices {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.dices button {
+  font-size: xx-large;
+}

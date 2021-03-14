@@ -4,9 +4,14 @@
         "code": "Code",
         "error": "Fout",
         "confirm": "Ok",
-        "cancel": "Annuleren"
+        "cancel": "Annuleren",
+        "toDrink": "Nog te drinken",
+        "drunk": "Gedronken"
     },
     "game": {
+        "state": {
+            "rolling": "Bezig met gooien"
+        },
         "actions": {
             "create": "Nieuw spel",
             "join": "Meedoen",
@@ -27,7 +32,8 @@
         "player_pause": "{{ source.name }} neemt een pauze, maar je kan gelukkig nog drank aan hem uitdelen.",
         "player_resume": "De pauze van {{ source.name }} is voorbij.",
         "player_rename": "{{ oldName }} heet nu {{ source.name }}.",
-        "roll": "{{ source.name }} heeft een {{ dice1 }} en een {{ dice2 }} gegooid."
+        "roll": "{{ source.name }} heeft een {{ dice1 }} en een {{ dice2 }} gegooid.",
+        "drink": "{{ source.name }} heeft {{ amount }} slok(ken) gedronken."
     },
     "requests": {
         "debug_error_request": "Debug foutmelding",
@@ -39,9 +45,10 @@
         "drieman_pause": "Pauzeren.",
         "drieman_rejoin": "Spel rejoinen.",
         "drieman_rename": "Naam wijzigen naar {{ newName }}.",
-        "drieman_roll": "Dobbelstenen gooien."
+        "drieman_roll": "Dobbelstenen gooien.",
+        "drieman_drink": "{{ amount }} slokken drinken."
     },
-    "errors":{
+    "errors": {
         "not enough players": "Er moeten minstens 4 actieve spelers zijn om te kunnen driemannen.",
         "game not found": "Spel kon niet teruggevonden worden.",
         "secret invalid": "Invalide sessie.",
@@ -49,8 +56,10 @@
         "invalid username": "Ongeldige gebruikersnaam.",
         "handout recipient not found": "Kon speler niet vinden.",
         "no handouts left": "U kan op dit moment niets uitdelen.",
-        "no negative handouts": "U moet minstens 1 slok uitdelen.",
+        "handout needs to be atleast 1": "U moet minstens 1 slok uitdelen.",
+        "drink amount needs to be atleast 1": "U moet minstens 1 slok drinken.",
         "handout target player left": "Deze speler heeft het spel verlaten.",
-        "not your turn": "Het is momenteel niet uw beurt om te gooien."
+        "not your turn": "Het is momenteel niet uw beurt om te gooien.",
+        "you don't have to drink anything": "U hebt momenteel geen slokken om te drinken."
     }
 }

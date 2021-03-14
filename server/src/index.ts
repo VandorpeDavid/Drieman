@@ -29,20 +29,21 @@ io.on("connection", (socket: any) => {
 
 
     socket.on('request', (message: RequestMessage) => {
-        logger.info(message);
-
-        const handler = handlers[message.type];
         let response;
 
-        if (handler) {
-            try {
+        try {
+            logger.info(message);
+
+            const handler = handlers[message.type];
+
+            if (handler) {
                 response = handler(session, message);
-            } catch (err) {
-                logger.error(err);
-                response = new ErrorResponse(message, "internal server error");
+            } else {
+                response = new ErrorResponse(message, "unknown request type");
             }
-        } else {
-            response = new ErrorResponse(message, "unknown request type");
+        } catch (err) {
+            logger.error(err);
+            response = new ErrorResponse(message, "internal server error");
         }
         session.socket.emit("response",
             response
@@ -51,7 +52,11 @@ io.on("connection", (socket: any) => {
 
     socket.on('disconnect', () => {
         logger.info("a user disconnected");
-        handlers.drieman_leave(session, { id: "none" } as LeaveRequest);
+        try {
+            handlers.drieman_leave(session, { id: "none" } as LeaveRequest);
+        } catch (err) {
+            logger.error(err);
+        }
     });
 
 });

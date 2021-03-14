@@ -21,7 +21,9 @@ class EventLogEntry extends React.Component<IEventLogEntryProps> {
         let effects = null;
         let drieman = null;
         let type = event.type;
-        if (type === 'roll') {
+        if(type === 'drink') {
+            return null;
+        } else if (type === 'roll') {
             const roll = event as RollEvent;
             effects = roll.effects.map((effect, index) =>
                 <div className="effect" key={index}>

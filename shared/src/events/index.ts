@@ -6,3 +6,4 @@ export {default as PlayerRename} from './PlayerRename';
 export {default as PlayerResume} from './PlayerResume';
 export {default as Roll} from './RollEvent';
 export {default as DriemanEvent} from './DriemanEvent';
+export {default as Drink} from './Drink';

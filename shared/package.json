@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build" : "tsc"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +12,9 @@
   },
   "files": [
     "dist/"
-  ]
+  ],
+  "dependencies": {
+    "@types/uuid": "^8.3.0",
+    "uuid": "^8.3.2"
+  }
 }

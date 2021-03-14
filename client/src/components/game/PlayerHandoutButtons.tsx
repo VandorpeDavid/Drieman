@@ -4,6 +4,7 @@ import { RequestMessage } from "shared/dist/messages/requests";
 import autobind from 'react-autobind';
 import { ResponseMessage } from 'shared/dist/messages/responses';
 import PlayerHandoutButton from './PlayerHandoutButton';
+import PlayerDrinkButton from './PlayerDrinkButton';
 
 interface IPlayerHandoutButtonsProps {
     me: Player,
@@ -20,7 +21,13 @@ class PlayerHandoutButtons extends React.Component<IPlayerHandoutButtonsProps> {
     render() {
         const { player, me, sendMessage } = this.props;
         if (player.id === me.id) {
-            return null;
+            return <div>
+            {
+                [1, 2, 3, 4, 5, 6].map(
+                    (amount) => <PlayerDrinkButton me={me} sendMessage={sendMessage} amount={amount} key={amount} />
+                )
+            }
+        </div>;
         }
 
         return <div>

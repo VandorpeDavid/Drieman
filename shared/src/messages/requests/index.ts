@@ -9,3 +9,4 @@ export {default as RejoinRequest} from './RejoinRequest';
 export {default as RequestMessage} from './RequestMessage';
 export {default as NewGameRequest} from './NewGameRequest';
 export {default as ErrorRequest} from './ErrorRequest';
+export {default as DrinkRequest} from './DrinkRequest';

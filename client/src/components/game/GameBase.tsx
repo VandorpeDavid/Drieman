@@ -53,9 +53,9 @@ class GameBase extends React.Component<IGameBaseProps> {
       </React.Fragment>
     }
 
-    let pauseButton = <a className="button is-rounded" onClick={this.pauseGame}>{t('game.actions.pause')}</a>;
+    let pauseButton = <button className="button is-rounded" onClick={this.pauseGame}>{t('game.actions.pause')}</button>;
     if (player.status === PlayerStatus.PAUSED) {
-      pauseButton = <a className="button is-rounded" onClick={this.resumeGame}>{t('game.actions.resume')}</a>;
+      pauseButton = <button className="button is-rounded" onClick={this.resumeGame}>{t('game.actions.resume')}</button>;
     }
     return <React.Fragment>
       <Navbar>

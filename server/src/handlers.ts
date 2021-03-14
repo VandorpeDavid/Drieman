@@ -11,7 +11,8 @@ import {
     Roll,
     Handout,
     DriemanEvent,
-    PlayerPause
+    PlayerPause,
+    Drink
 } from "shared/dist/events/";
 import RollEffect from "shared/dist/events/RollEffect";
 import {
@@ -25,6 +26,7 @@ import {
     RenameRequest,
     NewGameRequest,
     ErrorRequest,
+    DrinkRequest
 } from "shared/dist/messages/requests/";
 import EventMessage from "shared/dist/messages/EventMessage";
 import {
@@ -234,7 +236,7 @@ function handleHandout(session: Session, message: HandoutRequest) {
     }
 
     if (amount <= 0) {
-        return new ErrorResponse(message, "no negative handouts");
+        return new ErrorResponse(message, "handout needs to be atleast 1");
     }
 
     if (!target.canDrink()) {
@@ -242,14 +244,45 @@ function handleHandout(session: Session, message: HandoutRequest) {
     }
 
     sender.handouts -= amount;
+    target.toDrink += amount;
     const handout = new Handout(sender, target, amount);
 
     broadcast(game, handout);
     return new OkResponse(message);
 }
 
-function handleErrorRequest(_session : Session, message : ErrorRequest) {
+function handleErrorRequest(_session: Session, message: ErrorRequest) {
     return new ErrorResponse(message, "error as requested");
+}
+
+function handleDrink(session: Session, message: DrinkRequest) {
+    const game = session.game;
+    const player = session.player;
+    if (isMissing(player) || isMissing(game)) {
+        return new ErrorResponse(message, "session not initialized");
+    }
+
+    if (player.toDrink <= 0) {
+        return new ErrorResponse(message, "you don't have to drink anything");
+    }
+
+    let amount = message.amount;
+
+    if (amount > player.toDrink) {
+        amount = player.toDrink;
+    }
+
+    if (amount <= 0) {
+        return new ErrorResponse(message, "drink amount needs to be atleast 1");
+    }
+
+    player.toDrink -= amount;
+    player.drunk += amount;
+
+    const event = new Drink(player, amount);
+
+    broadcast(game, event);
+    return new OkResponse(message);
 }
 
 function handleRoll(session: Session, message: RollRequest) {
@@ -274,10 +307,16 @@ function handleRoll(session: Session, message: RollRequest) {
     const drieman = game.state.drieman;
     let threes = 0;
     if (dice1 === 3) {
+        if (drieman) {
+            drieman.toDrink++;
+        }
         ++threes;
     }
 
     if (dice2 === 3) {
+        if (drieman) {
+            drieman.toDrink++;
+        }
         ++threes;
     }
 
@@ -294,6 +333,7 @@ function handleRoll(session: Session, message: RollRequest) {
     if (sum === 7) {
         roll.endOfTurn = false;
 
+        currentPlayer.toDrink++;
         if (currentPlayer === drieman) {
             ++threes;
         } else {
@@ -303,6 +343,7 @@ function handleRoll(session: Session, message: RollRequest) {
         }
     } else if (sum === 8) {
         const nextPlayer = game.getNextDrinker();
+        nextPlayer.toDrink++;
 
         roll.endOfTurn = false;
 
@@ -315,6 +356,7 @@ function handleRoll(session: Session, message: RollRequest) {
         }
     } else if (sum === 6) {
         const previousPlayer = game.getPreviousDrinker();
+        previousPlayer.toDrink++;
 
         roll.endOfTurn = false;
 
@@ -357,6 +399,7 @@ function handleRoll(session: Session, message: RollRequest) {
 export const handlers: { [name: string]: (s: Session, msg: any) => ResponseMessage } = {
     "drieman_join": handleJoin,
     "drieman_roll": handleRoll,
+    "drieman_drink": handleDrink,
     "drieman_handout": handleHandout,
     "drieman_rejoin": handleRejoin,
     "drieman_leave": handleLeave,
