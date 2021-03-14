@@ -53,6 +53,20 @@ function broadcast(game: Game, event: DriemanEvent) {
     game.room.broadcast(new EventMessage(event, game.state));
 }
 
+function sanitizeName(newName : string) : string {
+    if (isMissing(newName)) {
+        return undefined;
+    }
+
+    newName = newName.trim();
+
+    if(newName.length === 0 || newName.length > 15) {
+        return undefined;
+    }
+
+    return newName;
+}
+
 function makeGameId() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
@@ -68,7 +82,13 @@ function makeGameId() {
 }
 
 function handleNewGame(session: Session, message: NewGameRequest) {
-    const player = new Player(message.name);
+    const name = sanitizeName(message.name);
+
+    if(isMissing(name)) {
+        return new ErrorResponse(message, "invalid username");
+    }
+
+    const player = new Player(name);
     const event = new PlayerJoin(player);
     const secret = uuidv4();
 
@@ -117,7 +137,13 @@ function handleLeave(session: Session, message: LeaveRequest) {
 }
 
 function handleJoin(session: Session, message: JoinRequest) {
-    const player = new Player(message.name);
+    const name = sanitizeName(message.name);
+
+    if(isMissing(name)) {
+        return new ErrorResponse(message, "invalid username");
+    }
+
+    const player = new Player(name);
     const event = new PlayerJoin(player);
     const secret = uuidv4();
 
@@ -181,12 +207,15 @@ function handleRename(session: Session, message: RenameRequest) {
         return new ErrorResponse(message, "session not initialized");
     }
 
-    if (isMissing(RenameRequest.name) || RenameRequest.name.trim() === "") {
+    const newName = sanitizeName(message.newName);
+    if(isMissing(newName)) {
         return new ErrorResponse(message, "invalid username");
     }
 
+
+
     const oldName = player.name;
-    player.name = message.newName;
+    player.name = newName;
     const event = new PlayerRename(player, oldName);
 
     broadcast(game, event);
